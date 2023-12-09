@@ -1,4 +1,4 @@
-# endterm
+# endterm 1 task
 def calculateGPA(*args):
     total_points = 0
     total_credits = 0
@@ -41,7 +41,7 @@ def translatePercentage(*args):
     return points
 
 
-# Example usage:
+# Example usage 2 task :
 # translateLetter() usage
 print(translateLetter('A+', 'B', 'C'))  # Output: [4.3, 3.0, 2.0]
 
@@ -50,3 +50,105 @@ print(translatePercentage(100, 45, 55, 89))  # Output: [4.3, 1.0, 1.7, 3.7]
 
 # calculateGPA() usage
 print(calculateGPA(3.3, 4, 2.7, 3, 4.0, 4))  # Output: 3.7
+
+def translate_scores_to_points(grades):
+    # Simplified example: Assume each grade corresponds to points directly
+    return [float(grade) for grade in grades]
+
+def calculate_gpa(points, credits):
+    # Simplified example: Calculate GPA by summing (points * credits) and dividing by total credits
+    total_credits = sum(credits)
+    weighted_points = sum(point * credit for point, credit in zip(points, credits))
+    return weighted_points / total_credits if total_credits != 0 else 0
+
+def read_credits(file_path):
+    # Read credits from the "credits.txt" file
+    with open(file_path, 'r') as file:
+        return [float(credit) for credit in file.read().splitlines()]
+
+def read_grades(file_path):
+    # Read grades from individual course files
+    with open(file_path, 'r') as file:
+        return [float(grade) for grade in file.read().splitlines()]
+
+def main():
+    # Directory containing course files
+    directory = "grades"
+
+    # Read credits from "credits.txt"
+    credits = read_credits(f"{directory}/credits.txt")
+
+    # Initialize a dictionary to store GPAs for each student
+    overall_gpas = {}
+
+    # Iterate over course files
+    for course in ["math", "chemistry", "english"]:
+        # Read grades from course file
+        grades = read_grades(f"{directory}/{course}.txt")
+
+        # Translate scores to points
+        points = translate_scores_to_points(grades)
+
+        # Calculate GPA for each student
+        gpa = calculate_gpa(points, credits)
+
+        # Store GPAs in the overall_gpas dictionary
+        overall_gpas[course] = gpa
+
+    # Save overall GPAs to a new file
+    with open(f"{directory}/overallGPAs.txt", "w") as output_file:
+        for student, gpa in overall_gpas.items():
+            output_file.write(f"{student}: {gpa}\n")
+
+if name == "__main__":
+    main()
+
+#3 
+import requests
+import socket
+
+class Student:
+    def __init__(self, name, num_courses, scores):
+        self.name = name
+        self.num_courses = num_courses
+        self.scores = scores
+        self.overall_gpa = 0.0
+        self.status = "Not Set"
+
+    def calculate_gpa(self):
+        total_credits = 0
+        weighted_points = 0
+
+        for course, details in self.scores.items():
+            score = details['score']
+            credits = details['credits']
+            total_credits += credits
+            weighted_points += score * credits
+
+        self.overall_gpa = weighted_points / total_credits if total_credits != 0 else 0
+
+    def set_status(self):
+        if self.overall_gpa >= 1.0:
+            self.status = "Passed"
+        else:
+            self.status = "Not Passed"
+
+    def show_gpa(self):
+        self.calculate_gpa()
+        print(f"{self.name}'s GPA: {self.overall_gpa:.2f}")
+
+    def show_status(self):
+        self.set_status()
+        print(f"{self.name}'s Status: {self.status}")
+
+# Example Usage:
+scores = {
+    'math': {'score': 4.3, 'credits': 4},
+    'chemistry': {'score': 3.3, 'credits': 3},
+    'english': {'score': 4.0, 'credits': 4}
+}
+
+student1 = Student("John Doe", 3, scores)
+student1.show_gpa()
+student1.show_status()
+
