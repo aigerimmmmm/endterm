@@ -3,7 +3,6 @@ def calculateGPA(*args):
     total_points = 0
     total_credits = 0
 
-    # Iterate through pairs of points and credits
     for i in range(0, len(args), 2):
         total_points += args[i] * args[i + 1]
         total_credits += args[i + 1]
@@ -41,58 +40,44 @@ def translatePercentage(*args):
     return points
 
 
-# Example usage 2 task :
-# translateLetter() usage
+#2 task :
 print(translateLetter('A+', 'B', 'C'))  # Output: [4.3, 3.0, 2.0]
 
-# translatePercentage() usage
 print(translatePercentage(100, 45, 55, 89))  # Output: [4.3, 1.0, 1.7, 3.7]
 
-# calculateGPA() usage
 print(calculateGPA(3.3, 4, 2.7, 3, 4.0, 4))  # Output: 3.7
 
 def translate_scores_to_points(grades):
-    # Simplified example: Assume each grade corresponds to points directly
     return [float(grade) for grade in grades]
 
 def calculate_gpa(points, credits):
-    # Simplified example: Calculate GPA by summing (points * credits) and dividing by total credits
     total_credits = sum(credits)
     weighted_points = sum(point * credit for point, credit in zip(points, credits))
     return weighted_points / total_credits if total_credits != 0 else 0
 
 def read_credits(file_path):
-    # Read credits from the "credits.txt" file
     with open(file_path, 'r') as file:
         return [float(credit) for credit in file.read().splitlines()]
 
 def read_grades(file_path):
-    # Read grades from individual course files
     with open(file_path, 'r') as file:
         return [float(grade) for grade in file.read().splitlines()]
 
 def main():
-    # Directory containing course files
     directory = "grades"
 
-    # Read credits from "credits.txt"
     credits = read_credits(f"{directory}/credits.txt")
 
-    # Initialize a dictionary to store GPAs for each student
     overall_gpas = {}
 
-    # Iterate over course files
     for course in ["math", "chemistry", "english"]:
-        # Read grades from course file
+    
         grades = read_grades(f"{directory}/{course}.txt")
-
-        # Translate scores to points
+       
         points = translate_scores_to_points(grades)
-
-        # Calculate GPA for each student
+      
         gpa = calculate_gpa(points, credits)
 
-        # Store GPAs in the overall_gpas dictionary
         overall_gpas[course] = gpa
 
     # Save overall GPAs to a new file
@@ -141,16 +126,6 @@ class Student:
         self.set_status()
         print(f"{self.name}'s Status: {self.status}")
 
-# Example Usage:
-scores = {
-    'math': {'score': 4.3, 'credits': 4},
-    'chemistry': {'score': 3.3, 'credits': 3},
-    'english': {'score': 4.0, 'credits': 4}
-}
-
-student1 = Student("John Doe", 3, scores)
-student1.show_gpa()
-student1.show_status()
 
 # API   это набор правил,  и инструментов, которые позволяют различным программным приложениям взаимодействовать друг с другом. API определяет методы и форматы данных, которые приложения могут использовать для запроса и обмена информацией
 # Сокет - это  точка коммуникации, позволяющая двум узлам в сети взаимодействовать друг с другом. Это технология для сетевого взаимодействия, обеспечивающая двунаправленный поток данных между процессами или устройствами через сеть.
